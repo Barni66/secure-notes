@@ -11,7 +11,11 @@
 
 <ul>
 {% for note in notes %}
-    <li>{{ note.title }}</li>
+    <li>
+    <a href="/note/{{ note.id }}/">
+        {{ note.title }}
+    </a>
+</li>
 {% endfor %}
 </ul>
 

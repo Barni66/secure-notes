@@ -84,3 +84,20 @@ def notes_view(request):
         "notes/notes.html",
         {"notes": notes}
     )
+
+def note_view(request, id):
+
+    # No ownership check
+    # Broken Access Control
+    note = Note.objects.get(id=id)
+
+    # note = Note.objects.get(
+    # id=id,
+    # owner=request.user
+    # )
+
+    return render(
+        request,
+        "notes/note.html",
+        {"note": note}
+    )
