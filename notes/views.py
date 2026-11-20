@@ -101,3 +101,11 @@ def note_view(request, id):
         "notes/note.html",
         {"note": note}
     )
+
+def delete_note(request, id):
+
+    note = Note.objects.get(id=id)
+
+    note.delete()
+
+    return redirect("/notes/")
