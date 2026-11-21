@@ -1,0 +1,17 @@
+<h1>Search</h1>
+
+<form method="GET">
+
+    <input type="text" name="q">
+
+    <input type="submit" value="Search">
+
+</form>
+
+<ul>
+
+{% for result in results %}
+    <li>{{ result }}</li>
+{% endfor %}
+
+</ul>

@@ -126,3 +126,5 @@ MAILERS = {
         'BACKEND': 'django.core.mail.backends.console.EmailBackend',
     },
 }
+
+FERNET_KEY = b'ymZV7IOSg9yQMcJgJ3FIPc4-GOOXV_YsTeMwlP9KSC0='
