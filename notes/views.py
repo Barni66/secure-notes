@@ -71,6 +71,7 @@ def login_view(request):
 
             return redirect("/notes/")
 
+        # Correct version:
         # if user:
         #     login(request, user)
 
@@ -93,9 +94,6 @@ def logout_view(request):
 
     return redirect("/")
 
-@login_required
-def notes_view(request):
-    return render(request, "notes/notes.html")
 
 @login_required
 def create_note(request):
@@ -107,29 +105,32 @@ def create_note(request):
         secret = request.POST.get("secret")
 
 
-        Note.objects.create(
-            owner=request.user,
-            title=title,
-            content=content,
-            secret=secret
-        )
-
-        # cipher = Fernet(settings.FERNET_KEY)
-        
-        # cipher.encrypt(
-        #     secret.encode()
-        # )
-
-        # encrypted_secret = cipher.encrypt(
-        #     secret.encode()
-        # ).decode()
-
         # Note.objects.create(
         #     owner=request.user,
         #     title=title,
         #     content=content,
-        #     secret=encrypted_secret
+        #     secret=secret
         # )
+
+        #5 Cryptographic Failures
+        # The problem can be solved by uncommenting the following part:
+
+        cipher = Fernet(settings.FERNET_KEY)
+        
+        cipher.encrypt(
+            secret.encode()
+        )
+
+        encrypted_secret = cipher.encrypt(
+            secret.encode()
+        ).decode()
+
+        Note.objects.create(
+            owner=request.user,
+            title=title,
+            content=content,
+            secret=encrypted_secret
+        )
 
         return redirect("/notes/")
 
@@ -155,6 +156,7 @@ def note_view(request, id):
     #1 Broken Access Control
     note = Note.objects.get(id=id)
 
+    # Correct version:
     # note = Note.objects.get(
     # id=id,
     # owner=request.user
@@ -170,7 +172,7 @@ def note_view(request, id):
 def delete_note(request, id):
 
     note = Note.objects.get(id=id)
-
+    # Correct version for flaw #1
     # note = Note.objects.get(
         # id=id,
         # owner=request.user
@@ -196,6 +198,9 @@ def search_view(request):
                 
             )
 
+            results = cursor.fetchall()
+
+            # Correct version:
             # cursor.execute(
             #     "SELECT * FROM notes_note WHERE title LIKE %s",
             #     [f"%{query}%"]
@@ -206,7 +211,7 @@ def search_view(request):
             #     title__icontains=query
             # )
 
-            results = cursor.fetchall()
+            
 
     return render(
         request,
